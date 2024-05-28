@@ -1,0 +1,56 @@
+{
+  "name": "be",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/be/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/be",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/be/src/main.ts",
+        "tsConfig": "apps/be/tsconfig.app.json",
+        "assets": ["apps/be/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "be:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "be:build:development"
+        },
+        "production": {
+          "buildTarget": "be:build:production"
+        }
+      }
+    }
+  }
+}
